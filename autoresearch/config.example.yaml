@@ -1,0 +1,161 @@
+# Content Loop - Autoresearch Configuration
+# Copy this to config.yaml and update with your settings
+
+# Analysis settings
+analysis:
+  # How many days to look back for performance analysis
+  default_lookback_days: 3
+  
+  # Minimum posts needed before making amendments
+  min_posts_for_amendments: 3
+  
+  # Performance thresholds
+  thresholds:
+    # Views threshold for considering a post successful
+    good_views: 10000
+    excellent_views: 50000
+    
+    # Engagement rate thresholds
+    good_engagement_rate: 0.05  # 5%
+    excellent_engagement_rate: 0.10  # 10%
+    
+    # Conversion rate thresholds (if available)
+    good_conversion_rate: 0.001  # 0.1%
+    excellent_conversion_rate: 0.005  # 0.5%
+    
+    # Performance degradation threshold for dropping hooks
+    degradation_threshold: 0.3  # 30% worse than best performer
+
+# Experiment settings
+experiments:
+  # Default experiment duration in days
+  default_duration: 7
+  
+  # How many variants to test simultaneously
+  max_variants_per_experiment: 4
+  
+  # Minimum posts per variant before declaring results
+  min_posts_per_variant: 2
+  
+  # Auto-conclude experiments after this many days regardless
+  max_experiment_duration: 14
+
+# Amendment settings
+amendments:
+  # Create backups before making changes
+  create_backups: true
+  
+  # Auto-apply amendments or require manual approval
+  auto_apply: false
+  
+  # Minimum confidence level for automated amendments
+  confidence_threshold: 0.7
+  
+  # Knowledge files to manage
+  managed_files:
+    - hooks.md
+    - ctas.md
+    - images.md
+    # voice.md excluded from auto-amendment
+
+# Reporting settings
+reporting:
+  # Generate reports for these periods
+  report_periods:
+    - 1   # Daily
+    - 3   # 3-day trend
+    - 7   # Weekly
+    - 30  # Monthly
+  
+  # Include these metrics in reports
+  metrics:
+    - views
+    - engagement_rate
+    - conversion_rate
+    - performance_score
+  
+  # Report output formats
+  formats:
+    - json  # Machine readable
+    - markdown  # Human readable
+  
+  # Save reports to this directory
+  output_dir: "data/reports"
+
+# TikTok Analytics (when available)
+tiktok:
+  # Scraping settings for basic analytics
+  scraping:
+    enabled: true
+    rate_limit_delay: 2  # seconds between requests
+    max_retries: 3
+  
+  # User agent for scraping
+  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15"
+
+# Postiz integration (optional, for advanced analytics)
+postiz:
+  enabled: false
+  api_key: ""  # Add your Postiz API key here
+  base_url: "https://api.postiz.com/v1"
+  
+  # Platform integration IDs
+  integrations:
+    tiktok: ""  # Your TikTok integration ID
+    instagram: ""  # Optional: Instagram integration ID
+    youtube: ""  # Optional: YouTube integration ID
+
+# RevenueCat integration (optional, for conversion tracking)
+revenuecat:
+  enabled: false
+  secret_key: ""  # Add your RevenueCat secret key (v2)
+  project_id: ""  # Your RevenueCat project ID
+  
+  # Attribution window (how long after post to count conversions)
+  attribution_window_hours: 72
+
+# Data storage settings
+storage:
+  # Main data directory
+  data_dir: "data"
+  
+  # Log file for all events
+  log_file: "run-log.jsonl"
+  
+  # Keep this many days of detailed logs
+  retention_days: 90
+  
+  # Compress old log files
+  compress_old_logs: true
+
+# Notification settings (when integrated with messaging)
+notifications:
+  # Send daily reports via message
+  daily_reports: true
+  
+  # Send alerts for significant changes
+  performance_alerts: true
+  
+  # Alert thresholds
+  alert_thresholds:
+    # Alert if views drop by more than this percentage
+    view_drop_percentage: 50
+    
+    # Alert if conversion rate drops below this
+    conversion_rate_floor: 0.0005  # 0.05%
+
+# Debugging settings
+debug:
+  # Enable verbose logging
+  verbose: false
+  
+  # Save intermediate analysis files
+  save_intermediate_files: false
+  
+  # Validate data integrity
+  validate_data: true
+
+# Version and metadata
+version: "1.0.0"
+created_by: "content-loop autoresearch system"
+last_updated: "2026-03-15"

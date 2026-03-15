@@ -1,0 +1,65 @@
+# Environment and secrets
+.env
+.env.*
+config.json
+*.key
+*.secret
+
+# Data and logs
+data/*.jsonl
+data/reports/
+data/temp/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Node.js (if using node scripts)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Generated content
+generated/
+output/
+posts/
+images/
+
+# Analytics downloads
+analytics/
+metrics/
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# API responses/cache
+cache/
+.cache/
+api_responses/
+
+# Backup files
+*.bak
+*.backup
+backup/
