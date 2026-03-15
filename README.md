@@ -104,6 +104,50 @@ The analysis engine identifies patterns:
 - Conversion tracking integration
 - Automated posting workflows
 
+## Plug In Any Agent
+
+The autoresearch loop is **decoupled from the content skill**. The included TikTok slideshow skill is just a reference implementation. You can swap in any agent that:
+
+1. **Reads knowledge files** before creating output
+2. **Logs results** to `data/run-log.jsonl` with the standard schema
+3. **Accepts amendments** to its knowledge base
+
+### Examples of What You Could Plug In
+
+| Domain | Skill swap | Knowledge files |
+|--------|-----------|-----------------|
+| **TikTok slideshows** (included) | `skills/content-creator/` | hooks, images, CTAs, voice |
+| **X/Twitter threads** | Your thread-writing skill | hooks, thread structures, posting times |
+| **Email campaigns** | Email copywriting skill | subject lines, CTAs, send times, segments |
+| **Ad copy** | Ad generation skill | headlines, descriptions, audiences, bids |
+| **Blog/SEO content** | Long-form writing skill | titles, structures, keywords, CTAs |
+| **Sales outreach** | Cold email skill | openers, value props, CTAs, follow-up timing |
+| **Product descriptions** | E-commerce copy skill | formats, keywords, tones, price framing |
+
+### How to Swap
+
+1. **Replace `skills/content-creator/`** with your own skill
+2. **Replace `knowledge/*.md`** with domain-relevant knowledge files (keep the same pattern: categories + performance tracking)
+3. **Update `agent/AGENT.md`** to reference your skill and knowledge files
+4. **Keep `autoresearch/` unchanged** — the experiment → analyze → amend loop works on any `run-log.jsonl` data
+
+The run-log schema is intentionally generic:
+```json
+{
+  "timestamp": "ISO-8601",
+  "type": "post|analysis|amendment",
+  "hook": "variant category",
+  "variant": "specific variant ID",
+  "views": 0,
+  "likes": 0,
+  "comments": 0,
+  "shares": 0,
+  "conversion": 0
+}
+```
+
+Add custom fields for your domain — the analyzer reads whatever's in the log. The core contract is: **log what you did → measure how it performed → amend what you know**.
+
 ## Framework Flexibility
 
 This isn't just for TikTok or just for apps. Swap the components for any product:
