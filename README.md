@@ -170,6 +170,73 @@ content-loop/
 └── crons/                    # Daily analysis scheduling
 ```
 
+## Two Levels of Learning
+
+This system improves at **two levels simultaneously**:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  LEVEL 2: Meta-Learning (the system improves itself)    │
+│  ┌───────────┐   ┌───────────┐   ┌───────────┐        │
+│  │  OBSERVE  │──▶│  INSPECT  │──▶│  PROPOSE  │        │
+│  │skill runs │   │ find decay│   │ amend/new │        │
+│  └───────────┘   └───────────┘   └───────────┘        │
+│                                                         │
+│  ┌─────────────────────────────────────────────────┐   │
+│  │  LEVEL 1: Content Learning (output improves)    │   │
+│  │  Create → Post → Measure → Learn → Create      │   │
+│  └─────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Level 1** — Content gets better: hooks, images, CTAs are optimized based on performance data. This is `autoresearch/experiment.py` → `analyze.py` → `amend.py`.
+
+**Level 2** — The system itself gets better: skills that start failing get detected and fixed. Workarounds that repeat 3+ times get turned into new skills. This is `autoresearch/meta.py`.
+
+### Level 2 in Action
+
+```bash
+# Log a skill execution (success or failure)
+python autoresearch/meta.py observe content-creator "generate slideshow" success
+
+# Log a failure with a workaround
+python autoresearch/meta.py observe analytics-scraper "scrape TikTok metrics" failure \
+  --error "403 on profile page" \
+  --workaround "used mobile user-agent header"
+
+# Run a health check — detects degradation and missing skills
+python autoresearch/meta.py report --days 7
+```
+
+Example output:
+```
+🔍 SKILL HEALTH REPORT
+============================================================
+Period: last 7 days
+Total executions: 10
+Unique skills: 2
+
+⚠️  FLAGGED SKILLS (1)
+────────────────────────────────
+  ❌ analytics-scraper: 75% failure rate (3/4 runs)
+     └─ TikTok returned 403 on profile page
+
+🆕 MISSING SKILLS (1)
+────────────────────────────────
+  💡 "used mobile user-agent header" — used 4 times
+     └─ Suggestion: Create a skill for: used mobile user-agent header
+
+📋 PROPOSED ACTIONS (2)
+────────────────────────────────
+  1. 🔧 [HIGH] amend_skill: analytics-scraper
+     Reason: 75% failure rate over 4 runs
+     → Review SKILL.md for outdated instructions...
+  2. 🆕 [MEDIUM] create_skill: used mobile user-agent header
+     Reason: Same workaround used 4 times — this should be a formal skill
+```
+
+The system notices the analytics scraper is broken (75% failure rate) AND that the workaround "use mobile user-agent" keeps recurring — so it proposes both fixing the existing skill AND creating a new one.
+
 ## What Makes This Different
 
 **Traditional approach:**
