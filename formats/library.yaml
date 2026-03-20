@@ -1,0 +1,216 @@
+# Content Formats Library
+# Reusable archetypes for short-form animated content.
+# Products reference these by slug in their product.yaml preferred_formats list.
+
+formats:
+
+  # ── Educational ──────────────────────────────────────────────
+
+  explainer:
+    name: "Explainer"
+    slug: "explainer"
+    description: "Character explains one concept clearly and memorably."
+    ideal_duration_s: [20, 45]
+    structure:
+      - beat: "hook"
+        duration_s: 3
+        notes: "Surprising fact or question that creates curiosity gap."
+      - beat: "setup"
+        duration_s: 5
+        notes: "Quick context. Why this matters to the viewer."
+      - beat: "explanation"
+        duration_s: 15
+        notes: "The core concept. Use analogy or visual metaphor."
+      - beat: "payoff"
+        duration_s: 5
+        notes: "The 'aha' moment. Restate simply."
+      - beat: "cta"
+        duration_s: 3
+        notes: "Soft call-to-action or loop trigger."
+    hook_formulas:
+      - "Your body does [surprising thing] when [trigger]"
+      - "This is what actually happens when you [action]"
+      - "[Character] explains [concept] in [X] seconds"
+      - "Nobody talks about this but [fact]"
+    strengths: "High save rate. Positions brand as knowledgeable. Evergreen."
+    risks: "Can feel like a lecture if pacing is off. Keep analogies visual."
+    best_for: ["health/wellness", "fintech", "education", "science"]
+
+  myth_bust:
+    name: "Myth Bust"
+    slug: "myth_bust"
+    description: "Character corrects a common misconception."
+    ideal_duration_s: [15, 30]
+    structure:
+      - beat: "myth_statement"
+        duration_s: 3
+        notes: "State the myth confidently, as if it's true."
+      - beat: "pause"
+        duration_s: 2
+        notes: "Character reacts — surprise, concern, or head shake."
+      - beat: "correction"
+        duration_s: 10
+        notes: "The truth, explained simply."
+      - beat: "takeaway"
+        duration_s: 3
+        notes: "One-sentence actionable takeaway."
+    hook_formulas:
+      - "Stop doing [common thing] — here's why"
+      - "Everyone thinks [myth]... they're wrong"
+      - "I believed this for years until I learned [truth]"
+      - "This 'advice' is actually making things worse"
+    strengths: "High engagement — people love being corrected. Shareable."
+    risks: "Can feel preachy. Keep tone curious, not condescending."
+    best_for: ["health/wellness", "fitness", "nutrition", "finance"]
+
+  listicle:
+    name: "Listicle"
+    slug: "listicle"
+    description: "3-5 items presented as a quick list."
+    ideal_duration_s: [30, 60]
+    structure:
+      - beat: "hook"
+        duration_s: 3
+        notes: "Number + promise. 'X things that [benefit]'"
+      - beat: "items"
+        duration_s: 8
+        notes: "One item per scene. Quick transitions. Each item 4-8s."
+        repeat: true
+      - beat: "bonus"
+        duration_s: 5
+        notes: "Optional surprise extra item or summary."
+      - beat: "cta"
+        duration_s: 3
+        notes: "Follow for more / link in bio."
+    hook_formulas:
+      - "3 things nobody tells you about [topic]"
+      - "5 signs [something is happening]"
+      - "The top 3 mistakes people make with [thing]"
+      - "[X] things I wish I knew before [starting thing]"
+    strengths: "Easy to produce. High completion rate if items are strong."
+    risks: "Can feel generic. Each item must have a micro-hook."
+    best_for: ["any product", "tips content", "beginner audiences"]
+
+  # ── Entertainment ────────────────────────────────────────────
+
+  mini_skit:
+    name: "Mini Skit"
+    slug: "mini_skit"
+    description: "Short comedic or dramatic scene featuring the character."
+    ideal_duration_s: [10, 30]
+    structure:
+      - beat: "setup"
+        duration_s: 3
+        notes: "Establish situation quickly. Visual + one line."
+      - beat: "escalation"
+        duration_s: 5
+        notes: "Complication or unexpected twist."
+      - beat: "punchline"
+        duration_s: 3
+        notes: "Payoff. Humor, irony, or relatable moment."
+    hook_formulas:
+      - "POV: [relatable situation]"
+      - "When [character] tries to [common action]"
+      - "[Character] vs [everyday challenge]"
+      - "Me when [relatable moment]"
+    strengths: "Highest share potential. Builds character personality fast."
+    risks: "Humor is subjective. Test multiple angles per skit concept."
+    best_for: ["brand building", "audience growth", "personality content"]
+
+  day_in_the_life:
+    name: "Day in the Life"
+    slug: "day_in_the_life"
+    description: "Character narrates a routine moment from the viewer's perspective."
+    ideal_duration_s: [15, 30]
+    structure:
+      - beat: "scene_set"
+        duration_s: 3
+        notes: "Time of day + situation. 'POV: it's 7am and...'"
+      - beat: "routine"
+        duration_s: 10
+        notes: "Walk through the moment. Character guides/narrates."
+      - beat: "insight"
+        duration_s: 5
+        notes: "One useful tip or product integration."
+      - beat: "close"
+        duration_s: 3
+        notes: "Warm close or loop trigger."
+    hook_formulas:
+      - "POV: it's [time] and you [action]"
+      - "A day in the life of someone who [uses product/does routine]"
+      - "What my morning actually looks like on [protocol/routine]"
+    strengths: "Relatable. Normalizes the product. Good retention."
+    risks: "Can be boring if nothing surprising happens. Add one twist."
+    best_for: ["wellness", "fitness", "productivity", "lifestyle"]
+
+  # ── Narrative ────────────────────────────────────────────────
+
+  worldbuilding_lore:
+    name: "Worldbuilding / Lore"
+    slug: "worldbuilding_lore"
+    description: "Serialized story that builds a world around the character."
+    ideal_duration_s: [15, 45]
+    structure:
+      - beat: "cold_open"
+        duration_s: 3
+        notes: "Drop into the story mid-action. No preamble."
+      - beat: "story"
+        duration_s: 15
+        notes: "Advance the narrative. One plot point per episode."
+      - beat: "cliffhanger"
+        duration_s: 3
+        notes: "End on unresolved tension. 'Part X coming tomorrow.'"
+    hook_formulas:
+      - "[Character] discovers something they shouldn't have"
+      - "The origin story of [character] — part [X]"
+      - "Day [X] of [character] trying to [quest]"
+      - "What happens when [character] meets [antagonist]"
+    strengths: "Drives follow behavior. Creates superfans. ARG potential."
+    risks: "Requires planning ahead. New viewers may feel lost. Add recaps."
+    best_for: ["brand characters with personality", "Duolingo/Nutter Butter style"]
+
+  trend_adaptation:
+    name: "Trend Adaptation"
+    slug: "trend_adaptation"
+    description: "Character participates in a trending format, sound, or meme."
+    ideal_duration_s: [10, 20]
+    structure:
+      - beat: "trend_setup"
+        duration_s: 3
+        notes: "Match the trending format's opening exactly."
+      - beat: "brand_twist"
+        duration_s: 5
+        notes: "Subvert the trend with your character/product angle."
+      - beat: "payoff"
+        duration_s: 3
+        notes: "Land the joke or message."
+    hook_formulas:
+      - "[Trending sound] + [character reacting]"
+      - "[Character] does the [trend name] challenge"
+      - "Using [trending format] to explain [topic]"
+    strengths: "Algorithm boost from trending audio/format. Discovery play."
+    risks: "Short shelf life. Must produce within 24-48h of trend peak."
+    best_for: ["growth phase", "audience building", "platform discovery"]
+
+  reaction_clip:
+    name: "Reaction Clip"
+    slug: "reaction_clip"
+    description: "Character reacts to a claim, screenshot, or piece of content."
+    ideal_duration_s: [10, 25]
+    structure:
+      - beat: "show_content"
+        duration_s: 3
+        notes: "Display the thing being reacted to."
+      - beat: "reaction"
+        duration_s: 5
+        notes: "Character's genuine, expressive reaction."
+      - beat: "commentary"
+        duration_s: 5
+        notes: "Quick explanation of why it's right/wrong/funny."
+    hook_formulas:
+      - "[Character] reacts to [common advice/claim]"
+      - "Is this actually true? Let's check."
+      - "Someone sent me this and I can't believe..."
+    strengths: "Easy to produce. Feels native. Good for engagement."
+    risks: "Can feel lazy if overdone. Mix with original content."
+    best_for: ["myth-busting", "commentary", "community engagement"]

@@ -22,11 +22,13 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 from typing import List, Dict, Optional, Tuple
 
+from config import Config
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
+_cfg = Config()
+DATA_DIR = _cfg.data_dir
 SKILL_LOG = os.path.join(DATA_DIR, "skill-executions.jsonl")
-KNOWLEDGE_DIR = os.path.join(os.path.dirname(__file__), "..", "knowledge")
-SKILLS_DIR = os.path.join(os.path.dirname(__file__), "..", "skills")
+KNOWLEDGE_DIR = _cfg.knowledge_dir
+SKILLS_DIR = _cfg.skills_dir
 
 
 # ── Observe ──────────────────────────────────────────────────────

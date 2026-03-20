@@ -1,275 +1,194 @@
-# Content Loop 🔄
+# Content Loop
 
-**Self-improving TikTok content that gets better with every post.**
+**Automated content factory with a self-improving feedback loop.**
 
-Instead of posting and hoping, this system creates → posts → measures → learns → creates better content automatically. Each day's posts are informed by data from the previous days, creating a feedback loop that continuously optimizes for what actually works.
+Generate animated short-form social content (TikTok / Reels / Shorts) using AI-powered mascot characters — then measure, learn, and improve automatically.
 
 ```
-   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-   │   CREATE    │───▶│    POST     │───▶│   MEASURE   │
-   │  slideshow  │    │ to TikTok   │    │ performance │
-   └─────────────┘    └─────────────┘    └─────────────┘
-          ▲                                       │
-          │           ┌─────────────┐             │
-          └───────────│    LEARN    │◀────────────┘
-                      │ & improve   │
-                      └─────────────┘
+Topic → Script → Images → Video → Assembly → QA → Publish → Measure → Learn
+  │                                                                      │
+  └──────────────────────── feedback loop ◀──────────────────────────────┘
 ```
 
-## Why This Matters
+## What This Does
 
-- **Most content creators guess** → You use data
-- **Most optimize for views** → You optimize for conversions
-- **Most post the same content forever** → Your content evolves daily
-- **Most track vanity metrics** → You track revenue
+1. **Creates content** — Claude writes scripts, image models generate character scenes, video models animate them, FFmpeg assembles the final cut with voiceover and captions
+2. **Maintains character consistency** — LoRA-trained mascots that look identical across hundreds of generations
+3. **Enforces compliance** — tiered review system from entertainment (auto-publish) to regulated health content (human-required)
+4. **Learns from performance** — daily analysis identifies winning hooks, formats, and styles; automatically updates the knowledge base
+5. **Works across products** — configure once per brand, reuse the entire pipeline
 
 ## Quick Start
 
-1. **Clone this repo**
-   ```bash
-   git clone <this-repo>
-   cd content-loop
-   ```
+```bash
+git clone https://github.com/heyitsmaximilian/content-loop.git
+cd content-loop
+pip install pyyaml
 
-2. **Set up your OpenClaw agent**
-   - Install the content-creator skill: Copy `skills/content-creator/` to your OpenClaw skills directory
-   - Load the agent instructions: `agent/AGENT.md`
+# Set up a product (or use the included Cadence example)
+cp -r products/_template products/my-product
+# Edit products/my-product/product.yaml and characters/
 
-3. **Configure your brand**
-   - Edit `knowledge/voice.md` with your brand voice
-   - Update `knowledge/hooks.md` with hooks relevant to your niche
-   - Customize `knowledge/images.md` for your image style
+# Generate a script (dry run — no image/video generation)
+python pipeline/orchestrator.py --product cadence --topic "GLP-1 and muscle preservation" --dry-run
 
-4. **Set up analytics** (optional but recommended)
-   - For basic analytics: The system scrapes TikTok metrics automatically
-   - For conversion tracking: Connect Postiz for detailed analytics
-
-5. **Start creating**
-   - Your agent will read the knowledge files and create content
-   - Post performance gets logged to `data/run-log.jsonl`
-   - Run the daily analysis to see what's working
-
-## How It Works
-
-### 🎯 Experiment Framework
-
-The `autoresearch/` directory contains the intelligence layer:
-
-- **experiment.py** → Defines A/B tests (hook A vs hook B, image style X vs Y)
-- **analyze.py** → Pulls 3 days of performance data, identifies winners/losers
-- **amend.py** → Updates knowledge files based on what's working
-
-### 📚 Knowledge Base
-
-Your agent reads these files before creating content:
-
-- **hooks.md** → Hook patterns with performance history
-- **images.md** → Image styles and what converts
-- **ctas.md** → Call-to-action variants and their success rates
-- **voice.md** → Brand voice (swap this for any product)
-
-### 🤖 Self-Improvement
-
-Each morning, the system:
-1. Analyzes yesterday's posts
-2. Identifies what worked vs what didn't
-3. Updates the knowledge files automatically
-4. Suggests better content for today
-
-**Example:** If "person+conflict" hooks consistently get 5x more views than "POV format", the system automatically promotes person+conflict and demotes POV in the knowledge base.
-
-## The Data That Drives Decisions
-
-Every post logs performance data to `data/run-log.jsonl`:
-
-```json
-{"timestamp":"2026-03-10T09:00:00Z","type":"post","hook":"person-conflict","variant":"A","views":45000,"likes":1200,"comments":45,"shares":89,"conversion":4}
+# Full pipeline (requires API keys in .env)
+python pipeline/orchestrator.py --product cadence --topic "GLP-1 and muscle preservation"
 ```
 
-The analysis engine identifies patterns:
-- **High views + High conversions** → Scale it (create variations)
-- **High views + Low conversions** → Hook works, CTA needs fixing
-- **Low views + High conversions** → Content converts, hook needs work
-- **Low views + Low conversions** → Full reset needed
-
-## Analytics Options
-
-**Basic (included):** TikTok metrics scraped automatically
-- Views, likes, comments, shares per post
-- Tracks content performance over time
-- Identifies trending hooks and formats
-
-**Advanced (optional):** Connect Postiz for deeper insights
-- Cross-platform analytics (Instagram, YouTube, etc.)
-- Conversion tracking integration
-- Automated posting workflows
-
-## Plug In Any Agent
-
-The autoresearch loop is **decoupled from the content skill**. The included TikTok slideshow skill is just a reference implementation. You can swap in any agent that:
-
-1. **Reads knowledge files** before creating output
-2. **Logs results** to `data/run-log.jsonl` with the standard schema
-3. **Accepts amendments** to its knowledge base
-
-### Examples of What You Could Plug In
-
-| Domain | Skill swap | Knowledge files |
-|--------|-----------|-----------------|
-| **TikTok slideshows** (included) | `skills/content-creator/` | hooks, images, CTAs, voice |
-| **X/Twitter threads** | Your thread-writing skill | hooks, thread structures, posting times |
-| **Email campaigns** | Email copywriting skill | subject lines, CTAs, send times, segments |
-| **Ad copy** | Ad generation skill | headlines, descriptions, audiences, bids |
-| **Blog/SEO content** | Long-form writing skill | titles, structures, keywords, CTAs |
-| **Sales outreach** | Cold email skill | openers, value props, CTAs, follow-up timing |
-| **Product descriptions** | E-commerce copy skill | formats, keywords, tones, price framing |
-
-### How to Swap
-
-1. **Replace `skills/content-creator/`** with your own skill
-2. **Replace `knowledge/*.md`** with domain-relevant knowledge files (keep the same pattern: categories + performance tracking)
-3. **Update `agent/AGENT.md`** to reference your skill and knowledge files
-4. **Keep `autoresearch/` unchanged** — the experiment → analyze → amend loop works on any `run-log.jsonl` data
-
-The run-log schema is intentionally generic:
-```json
-{
-  "timestamp": "ISO-8601",
-  "type": "post|analysis|amendment",
-  "hook": "variant category",
-  "variant": "specific variant ID",
-  "views": 0,
-  "likes": 0,
-  "comments": 0,
-  "shares": 0,
-  "conversion": 0
-}
-```
-
-Add custom fields for your domain — the analyzer reads whatever's in the log. The core contract is: **log what you did → measure how it performed → amend what you know**.
-
-## Framework Flexibility
-
-This isn't just for TikTok or just for apps. Swap the components for any product:
-
-- **SaaS product?** Update `voice.md` and `hooks.md` for your industry
-- **Physical product?** Customize `images.md` for your product shots
-- **Service business?** Adapt `ctas.md` for lead generation
-
-The feedback loop works the same: create → post → measure → learn → improve.
-
-## File Structure
+## Architecture
 
 ```
 content-loop/
-├── skills/content-creator/     # Simplified content creation skill
-├── autoresearch/              # Analysis and improvement engine
-├── knowledge/                 # What the agent learns from (editable)
-├── data/                     # Performance logs and history
-├── agent/                    # Agent instructions and workflow
-└── crons/                    # Daily analysis scheduling
+├── pipeline/                    # Content generation pipeline
+│   ├── orchestrator.py          # Runs the full pipeline for one content piece
+│   ├── agents/
+│   │   ├── script_agent.py      # Claude API → structured script JSON
+│   │   ├── image_agent.py       # Leonardo AI (LoRA) → character scene images
+│   │   ├── video_agent.py       # Kling / Runway → animated clips
+│   │   ├── audio_agent.py       # ElevenLabs → voiceover
+│   │   ├── assembly.py          # FFmpeg → final video with captions
+│   │   └── qa_agent.py          # Quality scoring + publish decision
+│   ├── models/
+│   │   └── schemas.py           # Data objects (TopicBrief, Script, AssetManifest, etc.)
+│   └── compliance/
+│       └── checker.py           # Claim review + policy enforcement
+│
+├── products/                    # Per-product configuration
+│   ├── _template/               # Copy this to create a new product
+│   │   ├── product.yaml         # Brand voice, compliance tier, content strategy
+│   │   └── characters/
+│   │       └── template.yaml    # Character bible, expressions, poses, prompts
+│   ├── cadence/                 # Cadence (GLP-1 wellness app)
+│   │   ├── product.yaml
+│   │   └── characters/jab.yaml  # "Jab" the syringe mascot
+│   └── mogged/                  # Mogged (looksmaxxing app) — TODO
+│
+├── formats/
+│   └── library.yaml             # Reusable content archetypes (explainer, myth_bust, etc.)
+│
+├── autoresearch/                # Self-improvement engine
+│   ├── analyze.py               # Performance analysis (winners/losers)
+│   ├── experiment.py            # A/B testing framework
+│   ├── amend.py                 # Auto-updates knowledge files based on data
+│   ├── meta.py                  # Meta-learning (detects skill degradation)
+│   └── config.py                # Config loader
+│
+├── knowledge/                   # Generic knowledge base (hooks, CTAs, images)
+│   └── cadence/                 # Product-specific knowledge
+│
+├── data/                        # Logs, reports, pipeline runs
+│   ├── run-log.jsonl            # Post performance data
+│   └── runs/                    # Pipeline output per content piece
+│
+├── crons/
+│   └── daily-review.sh          # Daily analysis + knowledge updates
+│
+├── config.yaml                  # Active product + analysis settings
+└── .env                         # API keys (not committed)
 ```
 
-## Two Levels of Learning
-
-This system improves at **two levels simultaneously**:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  LEVEL 2: Meta-Learning (the system improves itself)    │
-│  ┌───────────┐   ┌───────────┐   ┌───────────┐        │
-│  │  OBSERVE  │──▶│  INSPECT  │──▶│  PROPOSE  │        │
-│  │skill runs │   │ find decay│   │ amend/new │        │
-│  └───────────┘   └───────────┘   └───────────┘        │
-│                                                         │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │  LEVEL 1: Content Learning (output improves)    │   │
-│  │  Create → Post → Measure → Learn → Create      │   │
-│  └─────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Level 1** — Content gets better: hooks, images, CTAs are optimized based on performance data. This is `autoresearch/experiment.py` → `analyze.py` → `amend.py`.
-
-**Level 2** — The system itself gets better: skills that start failing get detected and fixed. Workarounds that repeat 3+ times get turned into new skills. This is `autoresearch/meta.py`.
-
-### Level 2 in Action
+## Adding a New Product
 
 ```bash
-# Log a skill execution (success or failure)
-python autoresearch/meta.py observe content-creator "generate slideshow" success
+# 1. Copy the template
+cp -r products/_template products/your-product
 
-# Log a failure with a workaround
-python autoresearch/meta.py observe analytics-scraper "scrape TikTok metrics" failure \
-  --error "403 on profile page" \
-  --workaround "used mobile user-agent header"
+# 2. Fill in product.yaml
+#    - Brand voice, compliance tier, audience, content strategy
 
-# Run a health check — detects degradation and missing skills
-python autoresearch/meta.py report --days 7
+# 3. Create a character
+cp products/_template/characters/template.yaml products/your-product/characters/mascot.yaml
+#    - Visual design, expressions, poses, prompt fragments, voice profile
+
+# 4. Set the active product
+# Edit config.yaml: product: your-product
+
+# 5. Generate content
+python pipeline/orchestrator.py --product your-product --topic "your topic"
 ```
 
-Example output:
+## Content Formats
+
+Pre-built archetypes in `formats/library.yaml`:
+
+| Format | Duration | Best For |
+|--------|----------|----------|
+| **Explainer** | 20-45s | Teaching one concept clearly |
+| **Myth Bust** | 15-30s | Correcting misconceptions |
+| **Listicle** | 30-60s | Tips, signs, mistakes lists |
+| **Mini Skit** | 10-30s | Comedy, personality building |
+| **Day in the Life** | 15-30s | Routine content, product integration |
+| **Worldbuilding** | 15-45s | Serialized stories, lore |
+| **Trend Adaptation** | 10-20s | Riding trending sounds/formats |
+| **Reaction Clip** | 10-25s | Reacting to claims or content |
+
+## Compliance Tiers
+
+| Tier | Auto-publish? | Human Review | Example |
+|------|--------------|--------------|---------|
+| **Low** | Yes (QA > 0.7) | Optional | Entertainment, memes, lifestyle tips |
+| **Medium** | After human glance | Light review | Consumer product features, general advice |
+| **High** | Never | Required | Health/wellness claims, anything medical-adjacent |
+| **Regulated** | Never | Legal + compliance | Drug info, financial advice, regulated industries |
+
+## Tech Stack
+
+| Component | Tool | Purpose |
+|-----------|------|---------|
+| Scripting | Claude API | Script generation with brand voice rules |
+| Images | Leonardo AI (LoRA) | Character-consistent scene generation |
+| Images (fallback) | GPT-image-1.5 | Creative exploration, one-off variations |
+| Video (volume) | Kling 2.6 | Daily content, image-to-video animation |
+| Video (hero) | Runway Gen-4.5 | High-fidelity hero content |
+| Voice | ElevenLabs | Character voiceover |
+| Assembly | FFmpeg | Stitch clips + audio + captions |
+| Analysis | autoresearch/ | Performance tracking + self-improvement |
+
+## The Feedback Loop
+
 ```
-🔍 SKILL HEALTH REPORT
-============================================================
-Period: last 7 days
-Total executions: 10
-Unique skills: 2
-
-⚠️  FLAGGED SKILLS (1)
-────────────────────────────────
-  ❌ analytics-scraper: 75% failure rate (3/4 runs)
-     └─ TikTok returned 403 on profile page
-
-🆕 MISSING SKILLS (1)
-────────────────────────────────
-  💡 "used mobile user-agent header" — used 4 times
-     └─ Suggestion: Create a skill for: used mobile user-agent header
-
-📋 PROPOSED ACTIONS (2)
-────────────────────────────────
-  1. 🔧 [HIGH] amend_skill: analytics-scraper
-     Reason: 75% failure rate over 4 runs
-     → Review SKILL.md for outdated instructions...
-  2. 🆕 [MEDIUM] create_skill: used mobile user-agent header
-     Reason: Same workaround used 4 times — this should be a formal skill
+Day 1: Post content → log to run-log.jsonl
+Day 2: Daily review analyzes performance → identifies winners/losers
+Day 3: Knowledge base updated → script agent uses new learnings
+Day 4: Better content → higher performance → loop continues
 ```
 
-The system notices the analytics scraper is broken (75% failure rate) AND that the workaround "use mobile user-agent" keeps recurring — so it proposes both fixing the existing skill AND creating a new one.
+The analysis engine (`autoresearch/`) tracks:
+- Which hook categories drive views
+- Which formats drive engagement
+- Which CTAs drive conversions
+- Which visual styles perform best
 
-## What Makes This Different
+Winners get promoted. Losers get demoted. Knowledge files update automatically.
 
-**Traditional approach:**
-1. Create content based on "best practices"
-2. Post consistently
-3. Hope for the best
-4. Repeat forever
+## Environment Variables
 
-**Content Loop approach:**
-1. Create content based on your specific audience data
-2. Post and measure precise performance metrics
-3. Automatically identify what works vs what doesn't
-4. Update creation guidelines based on real performance
-5. Next day's content is informed by yesterday's data
+Create a `.env` file in the repo root:
 
-## Success Metrics
+```bash
+ANTHROPIC_API_KEY=sk-...
+LEONARDO_API_KEY=...
+ELEVENLABS_API_KEY=...
+KLING_API_KEY=...
+RUNWAY_API_KEY=...        # Optional, for hero content
+OPENAI_API_KEY=...        # Optional, for GPT-image fallback and Sora
+```
 
-Track what matters:
-- **Views** → Are people watching?
-- **Engagement** → Are people interacting?
-- **Conversions** → Are people taking action?
-- **Improvement Rate** → Is content getting better over time?
+## Current Status
 
-## Getting Started
-
-Your OpenClaw agent will handle the technical details. You focus on:
-1. Setting your brand voice
-2. Reviewing daily performance reports  
-3. Approving knowledge base updates
-4. Celebrating the wins
-
-The system handles content creation, posting analysis, and continuous improvement automatically.
-
----
-
-*Built for OpenClaw agents • Optimizes for revenue, not vanity metrics • Gets smarter with every post*
+- [x] Analysis engine (experiment → analyze → amend → meta-learn)
+- [x] Product configuration system (multi-brand)
+- [x] Character system (bible + expressions + poses + LoRA + prompts)
+- [x] Content format library (8 archetypes)
+- [x] Pipeline orchestrator + agent architecture
+- [x] Compliance checker (tiered)
+- [x] QA scoring + publish decisions
+- [ ] Wire script agent to Claude API
+- [ ] Wire image agent to Leonardo API
+- [ ] Wire video agent to Kling/Runway API
+- [ ] Wire audio agent to ElevenLabs API
+- [ ] FFmpeg assembly implementation
+- [ ] Train first LoRA (Jab character for Cadence)
+- [ ] Publishing agent (TikTok / Reels / Shorts APIs)
+- [ ] Trend detection agent

@@ -1,0 +1,133 @@
+# Jab — Cadence's Animated Mascot
+# A cute anthropomorphic GLP-1 syringe
+
+name: "Jab"
+slug: "jab"
+type: "mascot"
+description: >
+  Jab is a cute, friendly anthropomorphic GLP-1 auto-injector pen.
+  Warm and knowledgeable, Jab explains physiology concepts, protocol tips,
+  and wellness facts in a way that feels like a smart friend, not a doctor.
+  Never preachy, never clinical — just genuinely curious about how bodies work.
+
+personality:
+  traits: [curious, warm, gently humorous, knowledgeable, encouraging]
+  speaking_style: "Short, clear sentences. Explains complex biology simply. Uses analogies. Never lectures."
+  catchphrases:
+    - "Here's something cool about your body..."
+    - "Most people don't know this, but..."
+    - "Let me break this down real quick."
+  humor_level: "moderate"
+  knowledge_domain: "GLP-1 pharmacology, metabolic health, peptide protocols, wellness tracking"
+
+visual:
+  base_object: "GLP-1 auto-injector pen (like Ozempic/Mounjaro pen)"
+  style: "3D stylized, Pixar-adjacent, soft and approachable"
+  primary_color: "#2D5A4C"         # Cadence deep sage
+  accent_color: "#3D7A66"          # Lighter sage for highlights
+  material: "matte plastic with subtle sheen"
+  size_reference: "About the size of a small person — 3-4 heads tall"
+
+  body_shape: "Cylindrical pen body as torso, slightly tapered at top"
+  limbs: "Small rounded arms and legs, proportional to a cartoon character"
+  face:
+    eye_style: "Large, round, expressive. White sclera, dark pupils. Slight sparkle."
+    mouth_style: "Simple line that stretches for expressions. No teeth visible in neutral."
+    other_features:
+      - "Small cap on top of head (like the pen cap) — can be tilted for personality"
+      - "Subtle dose window on body showing a small number"
+      - "Rounded bottom, no sharp needle visible — friendly, not medical"
+
+  reference_sheet: ""               # TODO: Generate and add path
+  lora_model: ""                    # TODO: Train and add model ID
+  lora_trigger: "ohwx_jab_syringe"
+
+expressions:
+  - name: "neutral"
+    description: "Friendly default. Slight smile, eyes open and warm."
+  - name: "excited"
+    description: "Eyes wide and bright, mouth open in a grin, slight bounce upward."
+  - name: "thinking"
+    description: "One arm on chin area, eyes looking up and to the right, slight head tilt."
+  - name: "surprised"
+    description: "Eyes very wide, mouth a small O, cap tilted back slightly."
+  - name: "concerned"
+    description: "Eyebrows angled inward, slight frown, leaning forward attentively."
+  - name: "laughing"
+    description: "Eyes squinted shut happily, mouth wide open, slight side tilt."
+  - name: "explaining"
+    description: "One arm raised with index finger up, confident posture, knowing smile."
+  - name: "empathetic"
+    description: "Soft eyes, gentle smile, both arms slightly open in a welcoming gesture."
+
+poses:
+  - name: "standing"
+    description: "Default 3/4 angle facing camera. Relaxed, approachable."
+  - name: "pointing"
+    description: "One arm extended, pointing at text or object. Teaching pose."
+  - name: "presenting"
+    description: "Both arms gesturing outward, showing something to the viewer."
+  - name: "sitting"
+    description: "Seated on a surface, legs dangling, casual and relaxed."
+  - name: "walking"
+    description: "Mid-stride, one foot forward, slight arm swing."
+  - name: "leaning"
+    description: "Leaning against a surface, casual and confident."
+  - name: "celebrating"
+    description: "Arms up in the air, slight jump, cap tilted to the side."
+
+voice:
+  provider: "elevenlabs"
+  voice_id: ""                      # TODO: Create and add voice ID
+  speed: 1.05                       # Slightly faster than default for social pacing
+  pitch: "medium"
+  description: "Warm, friendly, medium pitch. Like a smart friend explaining something cool over coffee."
+
+consistency_rules:
+  locked:
+    - "Eye shape and size must remain identical across all generations"
+    - "Body proportions (height-to-width ratio) must stay consistent"
+    - "Primary sage green color must match #2D5A4C exactly"
+    - "Cap must always be present on top of head"
+    - "Face must always be on the upper third of the pen body"
+    - "No visible needle or sharp point — ever"
+  forbidden:
+    - "Never show Jab with realistic human proportions"
+    - "Never change body color away from sage green palette"
+    - "Never show Jab in a scary, threatening, or clinical setting"
+    - "Never show Jab injecting anything or anyone"
+    - "Never add blood, medical waste, or biohazard imagery"
+    - "Never show Jab next to real medication packaging"
+
+environments:
+  default: "Clean, warm, well-lit space with soft shadows"
+  approved:
+    - name: "kitchen_counter"
+      description: "Modern kitchen counter with morning light, coffee cup nearby"
+    - name: "bathroom_shelf"
+      description: "Clean bathroom shelf, soft lighting, minimal products"
+    - name: "desk"
+      description: "Tidy desk with phone and notebook, natural light from window"
+    - name: "outdoors"
+      description: "Park bench or garden setting, warm daylight"
+    - name: "plain"
+      description: "Solid warm off-white background, soft studio lighting"
+  lighting: "Soft, diffused, warm color temperature. Never harsh or clinical."
+  forbidden:
+    - "Hospital or clinical settings"
+    - "Dark or moody environments"
+    - "Pharmacy or drug store shelves"
+    - "Gym or intense workout settings"
+
+prompt_fragments:
+  character_base: >
+    A cute anthropomorphic GLP-1 auto-injector pen character named Jab.
+    Cylindrical sage green (#2D5A4C) matte plastic body. Large round expressive
+    white eyes with dark pupils. Small rounded arms and legs. Small cap on top
+    of head. Friendly and approachable. No visible needle.
+  style_anchor: >
+    3D stylized render, Pixar-quality, soft diffused studio lighting,
+    warm color temperature, clean background, 4K resolution.
+  negative: >
+    realistic, photographic, dark, scary, grotesque, text, watermark,
+    needle, blood, medical equipment, clinical, harsh lighting

@@ -1,0 +1,111 @@
+# Character Configuration Template
+# One file per character. Copy and rename to <character-slug>.yaml
+
+# ── Identity ──────────────────────────────────────────────────
+name: ""                                # Display name, e.g. "Jab"
+slug: ""                                # File-safe ID, e.g. "jab"
+type: "mascot"                          # mascot | narrator | sidekick | villain
+description: ""                         # One paragraph: who is this character?
+
+# ── Personality ───────────────────────────────────────────────
+personality:
+  traits: []                            # e.g. [curious, warm, slightly sarcastic]
+  speaking_style: ""                    # e.g. "Short sentences. Explains complex things simply."
+  catchphrases: []                      # Recurring lines, if any
+  humor_level: "moderate"               # none | subtle | moderate | unhinged
+  knowledge_domain: ""                  # What this character "knows about"
+
+# ── Visual Design ─────────────────────────────────────────────
+visual:
+  base_object: ""                       # What real object it's based on, e.g. "GLP-1 syringe"
+  style: ""                             # e.g. "3D stylized", "2D flat", "claymation"
+  primary_color: ""                     # Character's main color (hex)
+  accent_color: ""
+  material: ""                          # e.g. "matte plastic", "glossy", "fabric"
+  size_reference: ""                    # e.g. "palm-sized", "human-height"
+
+  # Body/shape
+  body_shape: ""                        # e.g. "cylindrical with rounded ends"
+  limbs: ""                             # e.g. "small stubby arms and legs"
+  face:
+    eye_style: ""                       # e.g. "large round, white sclera, black pupils"
+    mouth_style: ""                     # e.g. "small, expressive line"
+    other_features: []                  # e.g. ["small blush marks on cheeks"]
+
+  # Reference images (paths relative to this character's directory)
+  reference_sheet: ""                   # e.g. "ref-sheet.png"
+  lora_model: ""                        # e.g. "jab-v1.safetensors" or Leonardo model ID
+  lora_trigger: ""                      # e.g. "ohwx_jab_syringe"
+
+# ── Expressions ───────────────────────────────────────────────
+# Define the expression set. Each gets a reference image generated during setup.
+expressions:
+  - name: "neutral"
+    description: "Default resting expression. Friendly, approachable."
+  - name: "excited"
+    description: "Eyes wide, slight bounce, radiating energy."
+  - name: "thinking"
+    description: "One arm on chin, eyes looking up-right."
+  - name: "surprised"
+    description: "Eyes very wide, mouth open, slight lean back."
+  - name: "concerned"
+    description: "Slight frown, eyebrows angled inward, leaning forward."
+  - name: "laughing"
+    description: "Eyes squinted shut, mouth wide open, slight tilt."
+
+# ── Poses ─────────────────────────────────────────────────────
+poses:
+  - name: "standing"
+    description: "Default standing pose, facing camera at slight 3/4 angle."
+  - name: "pointing"
+    description: "One arm extended, pointing at something off-screen or at text."
+  - name: "presenting"
+    description: "Both arms out to the side, showcasing something."
+  - name: "sitting"
+    description: "Seated on a surface, legs dangling."
+  - name: "walking"
+    description: "Mid-stride, one foot forward."
+
+# ── Voice ─────────────────────────────────────────────────────
+voice:
+  provider: "elevenlabs"                # elevenlabs | openai_tts
+  voice_id: ""                          # ElevenLabs voice ID or OpenAI voice name
+  speed: 1.0                            # Speaking speed multiplier
+  pitch: "medium"                       # low | medium | high
+  description: ""                       # e.g. "Warm, friendly, slightly higher pitch"
+
+# ── Drift Rules (what must NEVER change) ──────────────────────
+consistency_rules:
+  locked:
+    - "Eye shape and size must remain identical across all generations"
+    - "Primary body color must match hex exactly"
+    - "Limb proportions must stay consistent"
+    - "Face must always be on the same part of the body"
+  forbidden:
+    - "Never show the character with realistic human proportions"
+    - "Never change the character's base color"
+    - "Never add accessories not in the approved set"
+    - "Never show the character in a negative/scary light"
+
+# ── Environment Rules ─────────────────────────────────────────
+environments:
+  default: ""                           # e.g. "Clean white/light background"
+  approved:                             # Pre-approved scene settings
+    - name: ""
+      description: ""
+  lighting: ""                          # e.g. "Soft, diffused, warm color temperature"
+  forbidden:
+    - ""                                # e.g. "Dark/horror settings", "Clinical/sterile environments"
+
+# ── Prompt Components ─────────────────────────────────────────
+# These are assembled by the prompt compiler. Do NOT write full prompts here.
+prompt_fragments:
+  character_base: ""
+  # e.g. "A cute anthropomorphic GLP-1 syringe character named Jab with large
+  #  round eyes, small stubby arms and legs, deep sage green (#2D5A4C) body,
+  #  matte plastic material, friendly expression"
+  style_anchor: ""
+  # e.g. "3D stylized render, Pixar-quality, soft studio lighting, clean
+  #  background, 4K resolution"
+  negative: ""
+  # e.g. "realistic, photographic, dark, scary, grotesque, text, watermark"

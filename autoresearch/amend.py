@@ -11,12 +11,15 @@ import re
 from datetime import datetime
 from typing import List, Dict, Optional, Tuple
 from analyze import AnalysisEngine
+from config import Config
 
 class KnowledgeAmender:
-    def __init__(self, knowledge_dir="knowledge", data_dir="data"):
-        self.knowledge_dir = knowledge_dir
-        self.data_dir = data_dir
-        self.log_file = os.path.join(data_dir, "run-log.jsonl")
+    def __init__(self, knowledge_dir="knowledge", data_dir="data", config: Config = None):
+        self.config = config or Config()
+        self.knowledge_dir = self.config.knowledge_dir if config else knowledge_dir
+        self.data_dir = self.config.data_dir if config else data_dir
+        self.log_file = self.config.log_file if config else os.path.join(data_dir, "run-log.jsonl")
+        self.product = self.config.product
     
     def read_knowledge_file(self, filename: str) -> str:
         """Read current knowledge file content"""
@@ -300,7 +303,9 @@ class KnowledgeAmender:
 
 def main():
     """CLI for applying knowledge amendments"""
-    amender = KnowledgeAmender()
+    cfg = Config()
+    amender = KnowledgeAmender(config=cfg)
+    print(f"[product: {cfg.product} | knowledge: {amender.knowledge_dir}]")
     
     if len(sys.argv) < 2:
         print("Usage: python amend.py <command> [args...]")

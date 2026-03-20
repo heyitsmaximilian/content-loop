@@ -1,0 +1,72 @@
+# Product Configuration Template
+# Copy this directory to products/<your-product>/ and fill in.
+
+# ── Identity ──────────────────────────────────────────────────
+name: "Your Product Name"
+slug: "your-product"                    # Used in file paths, log entries, API keys
+tagline: "One-line description"
+url: ""                                 # App store / website link
+
+# ── Brand Voice ───────────────────────────────────────────────
+voice:
+  tone: []                              # e.g. [warm, knowledgeable, playful]
+  never: []                             # e.g. [aggressive, clinical, guilt-inducing]
+  vocabulary:
+    prefer: []                          # Words/phrases to use
+    avoid: []                           # Words/phrases to never use
+  example_lines:
+    - ""                                # 3-5 example lines in the brand voice
+
+# ── Visual Identity ───────────────────────────────────────────
+visual:
+  primary_color: ""                     # Hex, e.g. "#2D5A4C"
+  accent_color: ""
+  background_style: ""                  # e.g. "warm off-white", "dark moody"
+  aesthetic: ""                         # e.g. "premium wellness", "dark roman emperor"
+
+# ── Target Audience ───────────────────────────────────────────
+audience:
+  age_range: ""                         # e.g. "25-45"
+  gender_skew: ""                       # e.g. "balanced", "male-heavy", "female-heavy"
+  interests: []
+  pain_points: []
+  platforms:                            # Ordered by priority
+    - tiktok
+    - youtube_shorts
+    - instagram_reels
+
+# ── Compliance ────────────────────────────────────────────────
+compliance:
+  tier: "low"                           # low | medium | high | regulated
+  requires_human_review: false          # Override: always require human approval
+  claim_rules:
+    - ""                                # e.g. "No medical claims", "No financial advice"
+  required_disclaimers: []              # Appended to posts when triggered
+  forbidden_topics: []                  # Topics that must never be generated
+
+# ── Content Strategy ──────────────────────────────────────────
+content:
+  posting_cadence: "daily"              # daily | 3x_week | weekly
+  default_duration_s: 30               # Target video length
+  preferred_formats:                    # From formats/ library, ordered by priority
+    - explainer
+    - myth_bust
+    - listicle
+    - day_in_the_life
+  topic_sources:                        # Where to pull topics from
+    - type: "manual"                    # manual | trending | backlog | research
+      description: "Team adds topics to backlog"
+
+# ── Characters ────────────────────────────────────────────────
+# Character configs live in characters/ subdirectory.
+# Each character gets its own YAML file.
+default_character: ""                   # Slug of the primary mascot
+
+# ── API Keys (reference only — actual keys in .env) ───────────
+# Keys are loaded from environment variables, not stored here.
+# Set these in your .env file:
+#   ANTHROPIC_API_KEY=...
+#   LEONARDO_API_KEY=...
+#   ELEVENLABS_API_KEY=...
+#   KLING_API_KEY=...
+#   RUNWAY_API_KEY=...

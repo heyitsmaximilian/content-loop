@@ -1,0 +1,49 @@
+# Content Loop Configuration
+# Active product — determines which knowledge/ subdirectory to use
+product: cadence
+
+# Analysis settings
+analysis:
+  default_lookback_days: 3
+  min_posts_for_amendments: 3
+  thresholds:
+    good_views: 10000
+    excellent_views: 50000
+    good_engagement_rate: 0.05
+    excellent_engagement_rate: 0.10
+    good_conversion_rate: 0.001
+    excellent_conversion_rate: 0.005
+    degradation_threshold: 0.3
+
+# Experiment settings
+experiments:
+  default_duration: 7
+  max_variants_per_experiment: 4
+  min_posts_per_variant: 2
+  max_experiment_duration: 14
+
+# Amendment settings
+amendments:
+  create_backups: true
+  auto_apply: false
+  confidence_threshold: 0.7
+  managed_files:
+    - hooks.md
+    - ctas.md
+    - images.md
+    # voice.md excluded from auto-amendment
+
+# Data storage
+storage:
+  data_dir: data
+  log_file: run-log.jsonl
+  retention_days: 90
+
+# Posting platforms (for future integration)
+platforms:
+  tiktok:
+    enabled: true
+  instagram:
+    enabled: false
+  twitter:
+    enabled: false

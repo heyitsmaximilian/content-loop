@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional
 import random
 
+from config import Config
+
 @dataclass
 class Variant:
     """A single variant in an experiment"""
@@ -33,10 +35,11 @@ class Experiment:
     status: str = "planned"
 
 class ExperimentRunner:
-    def __init__(self, config_file="config.example.yaml"):
-        self.config_file = config_file
-        self.data_dir = "data"
-        self.log_file = os.path.join(self.data_dir, "run-log.jsonl")
+    def __init__(self, config: Config = None):
+        self.config = config or Config()
+        self.data_dir = self.config.data_dir
+        self.log_file = self.config.log_file
+        self.product = self.config.product
         
     def create_hook_experiment(self, hook_variants: List[str], hypothesis: str) -> Experiment:
         """Create an experiment testing different hook variants"""
@@ -135,6 +138,7 @@ class ExperimentRunner:
         log_entry = {
             "timestamp": datetime.now().isoformat(),
             "type": "experiment_created",
+            "product": self.product,
             "experiment_id": experiment.id,
             "hypothesis": experiment.hypothesis,
             "variant_count": len(experiment.variants),

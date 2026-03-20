@@ -63,3 +63,11 @@ api_responses/
 *.bak
 *.backup
 backup/
+
+# LoRA models (too large for git)
+*.safetensors
+*.ckpt
+*.pt
+
+# Pipeline run outputs
+data/runs/

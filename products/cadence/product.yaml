@@ -1,0 +1,71 @@
+# Cadence — GLP-1 & Peptide Support App
+# Content pipeline configuration
+
+name: "Cadence"
+slug: "cadence"
+tagline: "Premium wellness app for GLP-1 and peptide protocols"
+url: ""
+
+voice:
+  tone: [warm, knowledgeable, calm, trustworthy]
+  never: [aggressive, clinical, guilt-inducing, biohacker-bro, salesy]
+  vocabulary:
+    prefer: [protocol, wellness, tracking, progress, support, journey, observe, notice]
+    avoid: [cure, treat, diagnose, prescribe, guaranteed, side effect fix, medical advice]
+  example_lines:
+    - "Here's something your body does that most people don't notice."
+    - "Tracking this one thing changed how I understood my protocol."
+    - "Nobody talks about this part of the GLP-1 journey."
+
+visual:
+  primary_color: "#2D5A4C"
+  accent_color: "#3D7A66"
+  background_style: "warm off-white, clean, airy"
+  aesthetic: "premium wellness — calm, modern, not clinical"
+
+audience:
+  age_range: "25-55"
+  gender_skew: "balanced"
+  interests: [GLP-1, semaglutide, tirzepatide, weight management, peptides, wellness tracking]
+  pain_points:
+    - "Forgot what dose I took and when"
+    - "Can't explain my progress clearly to my doctor"
+    - "Don't know if what I'm experiencing is normal"
+    - "Tracking in notes/spreadsheets is messy"
+  platforms:
+    - tiktok
+    - youtube_shorts
+    - instagram_reels
+
+compliance:
+  tier: "high"
+  requires_human_review: true
+  claim_rules:
+    - "No medical claims — never say 'cures', 'treats', 'prevents', or 'heals'"
+    - "Observational language only — 'many people notice' not 'this will make you'"
+    - "No dosing advice — never suggest specific doses or protocols"
+    - "No side effect claims — describe experiences, not medical outcomes"
+    - "Required disclaimer when discussing health topics: 'Cadence is not a substitute for professional medical care'"
+  required_disclaimers:
+    - "This is not medical advice. Always consult your healthcare provider."
+  forbidden_topics:
+    - "specific drug dosing recommendations"
+    - "off-label use promotion"
+    - "weight loss guarantees"
+    - "comparison to prescription alternatives"
+
+content:
+  posting_cadence: "daily"
+  default_duration_s: 30
+  preferred_formats:
+    - explainer
+    - myth_bust
+    - day_in_the_life
+    - listicle
+  topic_sources:
+    - type: "manual"
+      description: "Team adds topics to backlog"
+    - type: "research"
+      description: "Agent researches trending GLP-1 questions on Reddit, TikTok"
+
+default_character: "jab"

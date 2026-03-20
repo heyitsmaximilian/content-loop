@@ -13,6 +13,8 @@ from typing import List, Dict, Optional, Tuple
 from collections import defaultdict
 import statistics
 
+from config import Config
+
 @dataclass
 class PostMetrics:
     """Metrics for a single post"""
@@ -26,8 +28,9 @@ class PostMetrics:
     likes: int
     comments: int
     shares: int
+    product: str = ""
     conversions: int = 0
-    
+
     @property
     def engagement_rate(self) -> float:
         """Calculate engagement rate (likes + comments + shares) / views"""
@@ -58,9 +61,11 @@ class VariantPerformance:
     performance_score: float
 
 class AnalysisEngine:
-    def __init__(self, data_dir="data"):
-        self.data_dir = data_dir
-        self.log_file = os.path.join(data_dir, "run-log.jsonl")
+    def __init__(self, data_dir="data", config: Config = None):
+        self.config = config or Config()
+        self.data_dir = self.config.data_dir if config else data_dir
+        self.log_file = self.config.log_file if config else os.path.join(data_dir, "run-log.jsonl")
+        self.product = self.config.product
     
     def load_post_metrics(self, days_back: int = 7) -> List[PostMetrics]:
         """Load post metrics from the last N days"""
@@ -75,6 +80,11 @@ class AnalysisEngine:
                 entry = json.loads(line.strip())
                 if entry.get('type') != 'post':
                     continue
+
+                # Filter by product if set
+                if self.product and self.product != "default":
+                    if entry.get('product', '') != self.product:
+                        continue
                     
                 post_date = datetime.fromisoformat(entry['timestamp'].replace('Z', '+00:00'))
                 if post_date < cutoff_date:
@@ -91,6 +101,7 @@ class AnalysisEngine:
                     likes=entry.get('likes', 0),
                     comments=entry.get('comments', 0),
                     shares=entry.get('shares', 0),
+                    product=entry.get('product', ''),
                     conversions=entry.get('conversion', entry.get('conversions', 0))
                 )
                 posts.append(post)
@@ -291,6 +302,7 @@ class AnalysisEngine:
         
         return {
             "timestamp": datetime.now().isoformat(),
+            "product": self.product,
             "period": f"Last {days_back} days",
             "total_posts": len(posts),
             "total_views": total_views,
@@ -313,7 +325,9 @@ class AnalysisEngine:
 
 def main():
     """CLI for running analysis"""
-    engine = AnalysisEngine()
+    cfg = Config()
+    engine = AnalysisEngine(config=cfg)
+    print(f"[product: {cfg.product}]")
     
     if len(sys.argv) < 2:
         print("Usage: python analyze.py <command> [args...]")
